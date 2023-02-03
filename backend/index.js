@@ -10,16 +10,35 @@ const db = mysql.createConnection({
   password: "",
   database: "belfast_db",
 });
+// express server middleware
+app.use(express.json());
 // to test if the backend is working
 app.get("/", (req, res) => {
   res.json("This is the backend");
 });
-// get data from mysql
+// get all data from mysql
 app.get("/products", (req, res) => {
-  const q = "SELECT * from products";
-  db.query(q, (err, data) => {
+  const kunin = "SELECT * from products";
+  db.query(kunin, (err, data) => {
     if (err) return res.json(err);
     return res.json(data);
+  });
+});
+// add product to database
+app.post("/products", (req, res) => {
+  const isave =
+    "INSERT INTO products (`name`,`brand`,`description`,`quantity`,`image`,`price`) VALUES (?)";
+  const laman = [
+    req.body.name,
+    req.body.brand,
+    req.body.description,
+    req.body.quantity,
+    req.body.image,
+    req.body.price,
+  ];
+  db.query(isave, [laman], (err, data) => {
+    if (err) return res.json(err);
+    return res.json("A product was inserted successfully.");
   });
 });
 
