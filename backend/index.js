@@ -1,5 +1,6 @@
 import express from "express";
 import mysql from "mysql";
+import cors from "cors";
 
 const app = express();
 
@@ -12,6 +13,7 @@ const db = mysql.createConnection({
 });
 // express server middleware
 app.use(express.json());
+app.use(cors());
 // to test if the backend is working
 app.get("/", (req, res) => {
   res.json("This is the backend");
